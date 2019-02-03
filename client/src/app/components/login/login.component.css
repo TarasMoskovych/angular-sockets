@@ -1,0 +1,13 @@
+.login {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+.login .card {
+  width: 500px;
+}
+
+.login .card-action {
+  padding-left: 0;
+}

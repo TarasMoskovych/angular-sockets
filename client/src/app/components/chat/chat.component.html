@@ -1,8 +1,37 @@
-<div *ngFor="let message of data">
-  {{ message | json }}
-</div>
+<div id="app">
+  <div class="chat">
+    <div class="chat-users collection">
+      <a
+        class="collection-item"
+        *ngFor="let user of users; let idx = index"
+        [ngClass]="{'active': user === 'Test' && idx === 1}"
+      >
+        {{ user }} {{ idx }}
+      </a>
+    </div>
+    <div class="chat-messages">
+      <div class="message"
+        *ngFor="let message of messages; let idx = index"
+        [ngClass]="{'owner': idx % 2 === 0}">
 
-<hr>
-<input [(ngModel)]="message" />
-<button (click)="onSendMessage()">Send</button>
-<button (click)="goBack()">Logout</button>
+        <div class="message-content z-depth-1">
+          {{ message }} {{ idx }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="input-field">
+      <input
+        [(ngModel)]="message"
+        placeholder="Type your message:"
+        type="text"
+        autofocus
+        autocomplete="false"
+
+      />
+    </div>
+    <button class="btn" (click)="onSendMessage()">Send</button>
+    <button class="btn red accent-4 right" (click)="goBack()">Logout</button>
+  </div>
+</div>

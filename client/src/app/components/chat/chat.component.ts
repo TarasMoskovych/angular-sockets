@@ -9,6 +9,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit, OnDestroy {
+  users = new Array(5).fill('Test');
+  messages = new Array(15).fill('Message');
 
   message: string;
   data: Array<any> = [];
