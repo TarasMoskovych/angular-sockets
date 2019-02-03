@@ -1,3 +1,5 @@
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  onEnterChat(form: NgForm) {
+    this.router.navigate(['/chat'], {
+      queryParams: {
+        name: form.value.name, room: form.value.room
+      }
+    });
   }
 }

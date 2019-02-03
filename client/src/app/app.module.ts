@@ -5,10 +5,8 @@ import { Router } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { ChatService } from './services/chat.service';
 import { ChatComponent, LoginComponent } from './components';
-
+import { ChatService } from './services/chat.service';
 
 @NgModule({
   declarations: [

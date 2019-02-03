@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+
 import { ChatService } from '../../services/chat.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
@@ -23,6 +24,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    console.log('on destroy');
     this.getMessages.unsubscribe();
   }
 

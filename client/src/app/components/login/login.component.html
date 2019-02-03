@@ -24,7 +24,7 @@
       </div>
       <div class="card-action">
         <button
-          routerLink="/chat"
+          (click)="onEnterChat(loginForm)"
           class="waves-effect waves-light btn-small"
           [disabled]="!loginForm.valid">
             Enter chat
