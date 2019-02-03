@@ -1,0 +1,8 @@
+<div *ngFor="let message of data">
+  {{ message | json }}
+</div>
+
+<hr>
+<input [(ngModel)]="message" />
+<button (click)="onSendMessage()">Send</button>
+<button (click)="goBack()">Logout</button>

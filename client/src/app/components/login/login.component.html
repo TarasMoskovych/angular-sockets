@@ -1,0 +1,35 @@
+<form #loginForm="ngForm" class="auth">
+  <div class="card">
+    <div class="card-content">
+      <h4 class="card-title">Angular Sockets Chat!</h4>
+      <div class="input-field">
+        <input
+          id="name"
+          type="text"
+          class="validate"
+          name="name"
+          ngModel
+          required>
+        <label for="name">Name:</label>
+      </div>
+      <div class="input-field">
+        <input
+          id="room"
+          type="text"
+          class="validate"
+          name="room"
+          ngModel
+          required>
+        <label for="room">Room:</label>
+      </div>
+      <div class="card-action">
+        <button
+          routerLink="/chat"
+          class="waves-effect waves-light btn-small"
+          [disabled]="!loginForm.valid">
+            Enter chat
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
