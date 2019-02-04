@@ -4,7 +4,7 @@ class UserService {
     }
 
     add(id, name, room) {
-        this.users.add({ id, name, room });
+        this.users.push({ id, name, room });
     }
 
     getById(id) {

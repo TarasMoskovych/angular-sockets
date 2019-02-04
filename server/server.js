@@ -12,23 +12,42 @@ const userService = require('./user.service')();
 const formatData = (name, text, id) => ({ name, text, id });
 
 io.on('connection', socket => {
+
     socket.on('join', (user, callback) => {
         if (!user.name || !user.room) {
             return callback('Enter valid user data!');
         }
 
         callback({ id: socket.id });
+        socket.join(user.room);
+
+        userService.remove(socket.id);
+        userService.add(socket.id, user.name, user.room);
 
         socket.emit('message:send', formatData('Admin', `Hello, ${user.name}!`));
+        socket.broadcast.to(user.room).emit('message:send', formatData('Admin', `${user.name} joined.`));
     });
 
     socket.on('message:receive', (data, callback) => {
+        const user = userService.getById(socket.id);
+
         if (!data) {
             return callback('Message cannot be empty!');
         }
 
+        if (user) {
+            io.to(user.room).emit('message:send', formatData(data.name, data.text, data.id));
+        }
+
         callback();
-        io.emit('message:send', formatData(data.name, data.text, data.id));
+    });
+
+    socket.on('disconnect', () => {
+        const user = userService.remove(socket.id);
+
+        if (user) {
+            io.to(user.room).emit('message:send', formatData('Admin', `${user.name} left.`));
+        }
     });
 });
 
