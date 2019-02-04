@@ -1,17 +1,15 @@
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
-  constructor(private router: Router) { }
-
-  ngOnInit() {
+  constructor(private router: Router) {
   }
 
   onEnterChat(form: NgForm) {

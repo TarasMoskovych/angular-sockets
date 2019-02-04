@@ -3,19 +3,19 @@
     <div class="chat-users collection">
       <a
         class="collection-item"
-        *ngFor="let user of users; let idx = index"
-        [ngClass]="{'active': user === 'Test' && idx === 1}"
+        *ngFor="let u of users"
+        [ngClass]="{'active': u.id === user.id}"
       >
-        {{ user }} {{ idx }}
+        {{ u.name }}
       </a>
     </div>
-    <div class="chat-messages">
+    <div class="chat-messages" #messagesRef>
       <div class="message"
-        *ngFor="let data of messages; let idx = index"
+        *ngFor="let data of messages"
         [ngClass]="{'owner': data.id === user.id}">
 
         <div class="message-content z-depth-1">
-           {{ data.name }}: {{ data.text }} <br> {{data.id}}
+           {{ data.name }}: {{ data.text }}
         </div>
       </div>
     </div>

@@ -23,9 +23,17 @@ export class ChatService {
       this.socket.emit('join', data, callback);
     }
 
+    public updateUsers = () => {
+      return Observable.create((observer) => {
+          this.socket.on('users:update', userList => {
+              observer.next(userList);
+          });
+      });
+    }
+
     public getMessages = () => {
       return Observable.create((observer) => {
-          this.socket.on('message:send', (message) => {
+          this.socket.on('message:send', message => {
               observer.next(message);
           });
       });

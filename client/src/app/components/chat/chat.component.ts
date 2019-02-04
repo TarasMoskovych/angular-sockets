@@ -1,25 +1,25 @@
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-
-import { switchMap } from 'rxjs/operators';
+import { Component, OnInit, OnDestroy, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { ChatService } from '../../services/chat.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit, OnDestroy {
-  private getMessagesSub = null;
+export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
+  @ViewChild('messagesRef') messageContainer: ElementRef;
 
+  private getMessagesSub = null;
+  private updateUsersSub = null;
   private user = {
     name: '',
     room: 0,
     id: 0
   };
 
-  users = new Array(5).fill('Test');
+  users = [];
   messages = [];
   message = '';
 
@@ -36,39 +36,55 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.chatService.connect();
   }
 
-  ngOnDestroy() {
-    console.log('on destroy');
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
 
+  ngOnDestroy() {
     if (this.getMessagesSub !== null) {
       this.getMessagesSub.unsubscribe();
     }
+
+    if (this.updateUsersSub !== null) {
+      this.updateUsersSub.unsubscribe();
+    }
   }
 
-  getRouteParameters() {
+  private getRouteParameters() {
     const queryParams = this.route.snapshot.queryParamMap;
 
     this.user.name = queryParams.get('name');
     this.user.room = +queryParams.get('room');
   }
 
-  initializeConnection() {
+  private initializeConnection() {
     this.chatService.join(this.user, data => {
       if (typeof data === 'string') {
         console.error(data);
       } else {
         this.user.id = data.id;
-        console.log(this.user);
         this.onReceiveMessage();
+        this.onUpdateUsers();
       }
     });
   }
 
-  onReceiveMessage() {
-    this.getMessagesSub = this.chatService
-      .getMessages()
+  private onReceiveMessage() {
+    this.getMessagesSub = this.chatService.getMessages()
       .subscribe((message: string) => {
         this.messages.push(message);
       });
+  }
+
+  private onUpdateUsers() {
+    this.updateUsersSub = this.chatService.updateUsers()
+      .subscribe((userList: Array<any>) => {
+        this.users = [...userList];
+      });
+  }
+
+  private scrollToBottom() {
+    this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
   }
 
   onSendMessage() {

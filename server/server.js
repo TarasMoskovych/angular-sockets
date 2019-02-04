@@ -24,6 +24,7 @@ io.on('connection', socket => {
         userService.remove(socket.id);
         userService.add(socket.id, user.name, user.room);
 
+        io.to(user.room).emit('users:update', userService.getUsersByRoom(user.room));
         socket.emit('message:send', formatData('Admin', `Hello, ${user.name}!`));
         socket.broadcast.to(user.room).emit('message:send', formatData('Admin', `${user.name} joined.`));
     });
@@ -47,6 +48,7 @@ io.on('connection', socket => {
 
         if (user) {
             io.to(user.room).emit('message:send', formatData('Admin', `${user.name} left.`));
+            io.to(user.room).emit('users:update', userService.getUsersByRoom(user.room));
         }
     });
 });
