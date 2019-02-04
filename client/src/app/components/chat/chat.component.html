@@ -12,10 +12,10 @@
     <div class="chat-messages">
       <div class="message"
         *ngFor="let message of messages; let idx = index"
-        [ngClass]="{'owner': idx % 2 === 0}">
+        [ngClass]="{'owner': true}">
 
         <div class="message-content z-depth-1">
-          {{ message }} {{ idx }}
+          {{ message.text }}
         </div>
       </div>
     </div>
@@ -28,10 +28,10 @@
         type="text"
         autofocus
         autocomplete="false"
-
+        (keydown.enter)="onSendMessage()"
       />
     </div>
-    <button class="btn" (click)="onSendMessage()">Send</button>
+    <button class="btn" (click)="onSendMessage()" [disabled]="message.length === 0">Send</button>
     <button class="btn red accent-4 right" (click)="goBack()">Logout</button>
   </div>
 </div>

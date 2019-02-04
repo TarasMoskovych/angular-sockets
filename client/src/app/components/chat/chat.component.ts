@@ -1,4 +1,6 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+
+import { switchMap } from 'rxjs/operators';
 
 import { ChatService } from '../../services/chat.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -9,39 +11,58 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit, OnDestroy {
+  private getMessagesSub: any;
+
+  private name: string;
+  private room: number;
+
   users = new Array(5).fill('Test');
-  messages = new Array(15).fill('Message');
+  messages = [];
+  message = '';
 
-  message: string;
-  data: Array<any> = [];
-
-  private getMessages;
-
-  constructor(private chatService: ChatService, private router: Router) {
+  constructor(
+    private chatService: ChatService,
+    private router: Router,
+    private route: ActivatedRoute ) {
   }
 
   ngOnInit() {
     this.chatService.connect();
-    this.onGetMessages();
+    this.getRouteParameters();
+    this.initializeConnection();
   }
 
   ngOnDestroy() {
     console.log('on destroy');
-    this.getMessages.unsubscribe();
+    this.getMessagesSub.unsubscribe();
   }
 
-  onGetMessages() {
-    this.getMessages = this.chatService
+  getRouteParameters() {
+    const queryParams = this.route.snapshot.queryParamMap;
+
+    this.name = queryParams.get('name');
+    this.room = +queryParams.get('room');
+  }
+
+  initializeConnection() {
+    this.getMessagesSub = this.chatService
       .getMessages()
       .subscribe((message: string) => {
-        console.log(message);
-        this.data.push(message);
+        this.messages.push(message);
       });
   }
 
   onSendMessage() {
-    this.chatService.sendMessage(this.message);
-    this.message = '';
+    const message = this.message.trim();
+    const data = {
+      text: message
+    };
+
+    if (message.length !== 0) {
+      this.chatService.sendMessage(data, err => {
+        err ? console.error(err) : this.message = '';
+      });
+    }
   }
 
   goBack() {

@@ -15,13 +15,13 @@ export class ChatService {
       });
     }
 
-    public sendMessage(message: any) {
-      this.socket.emit('createMessage', message);
+    public sendMessage(data: any, callback) {
+      this.socket.emit('message:receive', data, callback);
     }
 
     public getMessages = () => {
       return Observable.create((observer) => {
-          this.socket.on('newMessage', (message) => {
+          this.socket.on('message:send', (message) => {
               observer.next(message);
           });
       });

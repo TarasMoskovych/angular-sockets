@@ -1,22 +1,27 @@
-let express = require('express');
-let app = express();
-
-let http = require('http');
-let server = http.Server(app);
-
-let socketIO = require('socket.io');
-let io = socketIO(server);
+const express = require('express');
+const socketIO = require('socket.io');
+const http = require('http');
 
 const port = process.env.PORT || 3000;
 
-io.on('connection', socket => {
-    socket.on('createMessage', data => {
-        console.log(data);
+const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
 
-        socket.emit('newMessage', { text: data, date: new Date() });
+const formatData = (name, text) => ({ name, text });
+
+io.on('connection', socket => {
+    socket.on('message:receive', (data, callback) => {
+        if (!data) {
+            callback('Message cannot be empty!');
+            return;
+        }
+
+        callback();
+        io.emit('message:send', formatData('Admin', data.text));
     });
 });
 
 server.listen(port, () => {
-    console.log(`started on port: ${port}`);
+    console.log(`Started on port: ${port}`);
 });
