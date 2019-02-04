@@ -11,11 +11,11 @@
     </div>
     <div class="chat-messages">
       <div class="message"
-        *ngFor="let message of messages; let idx = index"
-        [ngClass]="{'owner': true}">
+        *ngFor="let data of messages; let idx = index"
+        [ngClass]="{'owner': data.id === user.id}">
 
         <div class="message-content z-depth-1">
-          {{ message.text }}
+           {{ data.name }}: {{ data.text }} <br> {{data.id}}
         </div>
       </div>
     </div>

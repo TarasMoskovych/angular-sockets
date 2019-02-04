@@ -19,6 +19,10 @@ export class ChatService {
       this.socket.emit('message:receive', data, callback);
     }
 
+    public join(data: any, callback) {
+      this.socket.emit('join', data, callback);
+    }
+
     public getMessages = () => {
       return Observable.create((observer) => {
           this.socket.on('message:send', (message) => {

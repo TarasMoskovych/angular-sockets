@@ -11,10 +11,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  private getMessagesSub: any;
+  private getMessagesSub = null;
 
-  private name: string;
-  private room: number;
+  private user = {
+    name: '',
+    room: 0,
+    id: 0
+  };
 
   users = new Array(5).fill('Test');
   messages = [];
@@ -23,28 +26,44 @@ export class ChatComponent implements OnInit, OnDestroy {
   constructor(
     private chatService: ChatService,
     private router: Router,
-    private route: ActivatedRoute ) {
+    private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.chatService.connect();
     this.getRouteParameters();
     this.initializeConnection();
+
+    this.chatService.connect();
   }
 
   ngOnDestroy() {
     console.log('on destroy');
-    this.getMessagesSub.unsubscribe();
+
+    if (this.getMessagesSub !== null) {
+      this.getMessagesSub.unsubscribe();
+    }
   }
 
   getRouteParameters() {
     const queryParams = this.route.snapshot.queryParamMap;
 
-    this.name = queryParams.get('name');
-    this.room = +queryParams.get('room');
+    this.user.name = queryParams.get('name');
+    this.user.room = +queryParams.get('room');
   }
 
   initializeConnection() {
+    this.chatService.join(this.user, data => {
+      if (typeof data === 'string') {
+        console.error(data);
+      } else {
+        this.user.id = data.id;
+        console.log(this.user);
+        this.onReceiveMessage();
+      }
+    });
+  }
+
+  onReceiveMessage() {
     this.getMessagesSub = this.chatService
       .getMessages()
       .subscribe((message: string) => {
@@ -55,7 +74,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   onSendMessage() {
     const message = this.message.trim();
     const data = {
-      text: message
+      text: message,
+      name: this.user.name,
+      id: this.user.id
     };
 
     if (message.length !== 0) {

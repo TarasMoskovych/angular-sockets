@@ -8,17 +8,27 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-const formatData = (name, text) => ({ name, text });
+const userService = require('./user.service')();
+const formatData = (name, text, id) => ({ name, text, id });
 
 io.on('connection', socket => {
+    socket.on('join', (user, callback) => {
+        if (!user.name || !user.room) {
+            return callback('Enter valid user data!');
+        }
+
+        callback({ id: socket.id });
+
+        socket.emit('message:send', formatData('Admin', `Hello, ${user.name}!`));
+    });
+
     socket.on('message:receive', (data, callback) => {
         if (!data) {
-            callback('Message cannot be empty!');
-            return;
+            return callback('Message cannot be empty!');
         }
 
         callback();
-        io.emit('message:send', formatData('Admin', data.text));
+        io.emit('message:send', formatData(data.name, data.text, data.id));
     });
 });
 
