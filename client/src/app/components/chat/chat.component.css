@@ -43,3 +43,18 @@
   height: 30vh;
   padding: 20px;
 }
+
+.actions input {
+  margin-left: 0;
+  margin-right: 3rem;
+}
+
+.actions .suffix {
+  color: #26a69a;
+  cursor: pointer;
+  right: 0;
+}
+
+.hidden {
+  display: none;
+}

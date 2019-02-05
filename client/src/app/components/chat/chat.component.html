@@ -1,4 +1,6 @@
-<div id="app">
+<app-loader *ngIf="loader"></app-loader>
+
+<div id="app" [ngClass]="{'hidden': loader}">
   <div class="chat">
     <div class="chat-users collection">
       <a
@@ -15,13 +17,14 @@
         [ngClass]="{'owner': data.id === user.id}">
 
         <div class="message-content z-depth-1">
-           {{ data.name }}: {{ data.text }}
+          {{ data.name }}: {{ data.text }}
         </div>
       </div>
     </div>
   </div>
   <div class="actions">
     <div class="input-field">
+      <i class="material-icons prefix suffix active" (click)="onSendMessage()">send</i>
       <input
         [(ngModel)]="message"
         placeholder="Type your message:"
@@ -31,7 +34,6 @@
         (keydown.enter)="onSendMessage()"
       />
     </div>
-    <button class="btn" (click)="onSendMessage()" [disabled]="message.length === 0">Send</button>
     <button class="btn red accent-4 right" (click)="goBack()">Logout</button>
   </div>
 </div>

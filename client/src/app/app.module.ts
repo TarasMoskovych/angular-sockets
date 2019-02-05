@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { ChatService } from './services/chat.service';
 import { AppComponent } from './app.component';
-import { ChatComponent, LoginComponent, ErrorHandlerComponent } from './components';
+import { ChatComponent, LoginComponent, ErrorHandlerComponent, LoaderComponent } from './components';
 
 @NgModule({
   declarations: [
@@ -13,6 +13,7 @@ import { ChatComponent, LoginComponent, ErrorHandlerComponent } from './componen
     ChatComponent,
     LoginComponent,
     ErrorHandlerComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,7 @@ import { AuthService } from './../../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  loader = false;
 
   constructor(
     private router: Router,
@@ -17,6 +18,7 @@ export class LoginComponent {
   }
 
   onEnterChat(form: NgForm) {
+    this.loader = true;
     this.authService.login().toPromise()
       .then(() => {
         this.router.navigate(['/chat'], {
@@ -24,6 +26,9 @@ export class LoginComponent {
             name: form.value.name, room: form.value.room
           }
         });
+      })
+      .finally(() => {
+        this.loader = false;
       });
   }
 }

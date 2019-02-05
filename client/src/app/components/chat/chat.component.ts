@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     id: 0
   };
 
+  loader = true;
   users = [];
   messages = [];
   message = '';
@@ -34,9 +35,13 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   ngOnInit() {
     this.getRouteParameters();
 
-    this.chatService.initializeConnection(() => {
-      this.router.navigate(['/error']);
-    });
+    this.chatService.initializeConnection(
+      () => {
+        this.router.navigate(['/error']);
+      },
+      () => {
+        this.loader = false;
+      });
     this.onInitializeConnection();
   }
 
