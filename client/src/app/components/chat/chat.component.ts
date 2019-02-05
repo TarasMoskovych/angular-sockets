@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, AfterViewChecked, ElementRef, ViewChild }
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { ChatService } from '../../services/chat.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -24,6 +25,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   message = '';
 
   constructor(
+    private authService: AuthService,
     private chatService: ChatService,
     private router: Router,
     private route: ActivatedRoute) {
@@ -31,9 +33,11 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngOnInit() {
     this.getRouteParameters();
-    this.initializeConnection();
 
-    this.chatService.connect();
+    this.chatService.initializeConnection(() => {
+      this.router.navigate(['/error']);
+    });
+    this.onInitializeConnection();
   }
 
   ngAfterViewChecked() {
@@ -48,6 +52,8 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     if (this.updateUsersSub !== null) {
       this.updateUsersSub.unsubscribe();
     }
+
+    this.authService.logout();
   }
 
   private getRouteParameters() {
@@ -57,7 +63,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.user.room = +queryParams.get('room');
   }
 
-  private initializeConnection() {
+  private onInitializeConnection() {
     this.chatService.join(this.user, data => {
       if (typeof data === 'string') {
         console.error(data);

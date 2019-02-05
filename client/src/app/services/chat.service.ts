@@ -9,9 +9,14 @@ export class ChatService {
       this.socket = io(this.url);
     }
 
-    public connect() {
+    public initializeConnection(callback) {
+      this.socket.on('connect_error', () => {
+        callback();
+        this.socket.disconnect();
+      });
+
       this.socket.on('connect', () => {
-        console.log('connected');
+        console.log('Connected!');
       });
     }
 
