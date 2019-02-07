@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./chat.component.less']
 })
 export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
-  @ViewChild('messagesRef') messageContainer: ElementRef;
+  // @ViewChild('messagesRef') messageContainer: ElementRef;
 
   private getMessagesSub = null;
   private updateUsersSub = null;
@@ -24,6 +24,10 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   users = [];
   messages = [];
   message = '';
+
+  collection = new Array(20);
+  collection2 = new Array(20);
+
 
   constructor(
     private authService: AuthService,
@@ -95,7 +99,8 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
 
   private scrollToBottom() {
-    this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+    return;
+    // this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
   }
 
   onSendMessage() {

@@ -13,12 +13,12 @@
   width: 100%;
 }
 
-.generate-wrapper() {
-  background: #fff;
+.generate-wrapper(@width: 390px, @bgColor: #fff) {
+  background: @bgColor;
   border-radius: 10px;
   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .1);
   overflow: hidden;
-  width: 390px;
+  width: @width;
 }
 
 .generate-title() {
@@ -56,35 +56,35 @@
   }
 }
 
-.generate-indents(@indent, @prefix, @n: 200, @k: 5) when (@k <= @n) {
+.generate-indents(@indent, @prefix, @n: 200, @k: 0) when (@k <= @n) {
   .@{prefix}-@{k} {
-      @{indent}: ~'@{k}px';
+    @{indent}: ~'@{k}px';
   }
 
   .@{prefix}-x-@{k} {
-      @{indent}-left: ~'@{k}px';
-      @{indent}-right: ~'@{k}px';
+    @{indent}-left: ~'@{k}px';
+    @{indent}-right: ~'@{k}px';
   }
 
   .@{prefix}-y-@{k} {
-      @{indent}-bottom: ~'@{k}px';
-      @{indent}-top: ~'@{k}px';
+    @{indent}-bottom: ~'@{k}px';
+    @{indent}-top: ~'@{k}px';
   }
 
   .@{prefix}-t-@{k} {
-      @{indent}-top: ~'@{k}px';
+    @{indent}-top: ~'@{k}px';
   }
 
   .@{prefix}-b-@{k} {
-      @{indent}-bottom: ~'@{k}px';
+    @{indent}-bottom: ~'@{k}px';
   }
 
   .@{prefix}-l-@{k} {
-      @{indent}-left: ~'@{k}px';
+    @{indent}-left: ~'@{k}px';
   }
 
   .@{prefix}-r-@{k} {
-      @{indent}-right: ~'@{k}px';
+    @{indent}-right: ~'@{k}px';
   }
 
   .generate-indents(@indent, @prefix, @n, @k + 5);

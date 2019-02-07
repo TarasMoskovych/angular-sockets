@@ -1,21 +1,22 @@
 <app-loader *ngIf="loader" [fullContainer]="true"></app-loader>
 
-<div id="app" [ngClass]="{'hidden': loader}">
+<!-- <div id="app" [ngClass]="{ hidden: loader }">
   <div class="chat">
     <div class="chat-users collection">
       <a
         class="collection-item"
         *ngFor="let u of users"
-        [ngClass]="{'active': u.id === user.id}"
+        [ngClass]="{ active: u.id === user.id }"
       >
         {{ u.name }}
       </a>
     </div>
     <div class="chat-messages" #messagesRef>
-      <div class="message"
+      <div
+        class="message"
         *ngFor="let data of messages"
-        [ngClass]="{'owner': data.id === user.id}">
-
+        [ngClass]="{ owner: data.id === user.id }"
+      >
         <div class="message-content z-depth-1">
           {{ data.name }}: {{ data.text }}
         </div>
@@ -24,7 +25,9 @@
   </div>
   <div class="actions">
     <div class="input-field">
-      <i class="material-icons prefix suffix active" (click)="onSendMessage()">send</i>
+      <i class="material-icons prefix suffix active" (click)="onSendMessage()"
+        >send</i
+      >
       <input
         [(ngModel)]="message"
         placeholder="Type your message:"
@@ -35,5 +38,91 @@
       />
     </div>
     <button class="btn red accent-4 right" (click)="goBack()">Logout</button>
+  </div>
+</div> -->
+
+<div class="chat" [ngClass]="{ hidden: loader }">
+  <div class="chat__container p-10">
+    <div class="chat__container__wrapper">
+      <div class="people-list p-y-30 p-l-30">
+        <div class="input-field people-list__search m-b-10">
+          <input id="search" type="text" class="validate"/>
+          <label for="search">Search</label>
+        </div>
+        <ul class="people-list__list p-y-20 p-r-20">
+          <li class="p-b-20" *ngFor="let item of collection">
+            <img
+              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg"
+              alt="avatar"
+            />
+            <div class="about">
+              <div class="name">Vincent Porter</div>
+              <div class="status">
+                <i class="fa fa-circle online"></i> online
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="chat-block">
+        <div class="chat-block__header chat-header p-20">
+          <img
+            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg"
+            alt="avatar"
+          />
+          <div class="chat-block__about p-l-10">
+            <div class="chat-block__about--with">Chat with Vincent Porter</div>
+            <div class="chat-block__about--messages">already 1 902 messages</div>
+          </div>
+          <div class="fa-wrapper">
+            <i class="fa fa-sign-out" (click)="goBack()"></i>
+          </div>
+        </div>
+
+        <div class="chat-block__history p-t-30 p-x-30 p-b-20">
+          <ul>
+            <li class="clearfix" *ngFor="let item of collection2" >
+              <div class="message-data right m-b-15">
+                <span class="message-data--time p-l-5">10:10 AM, Today</span> &nbsp;
+                &nbsp;
+                <span class="message-data--name">Olia</span>
+                <i class="fa fa-circle me m-l-5"></i>
+              </div>
+              <div class="message message--other float-right m-b-30 p-y-10 p-x-15">
+                Hi Vincent, how are you? How is the project coming along?
+              </div>
+            </li>
+            <li class="clearfix">
+              <div class="message-data m-b-15">
+                <span class="message-data--name">
+                  <i class="fa fa-circle online"></i> Vincent</span>
+                <span class="message-data--time p-l-5">10:12 AM, Today</span>
+              </div>
+              <div class="message message--owner m-b-30 p-y-10 p-x-15">
+                Are we meeting today? Project has been already finished and I
+                have results to show you.
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="chat-block__message">
+          <div class="clearfix">
+            <textarea
+              class="p-y-10 p-x-20"
+              name="message-to-send"
+              [(ngModel)]="message"
+              id="message-to-send"
+              placeholder="Type your message"
+              autocomplete="false"
+              (keydown.enter)="onSendMessage()"
+              autofocus
+              autocomplete="false"
+              rows="6">
+            </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
