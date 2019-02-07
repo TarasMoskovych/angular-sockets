@@ -1,24 +1,14 @@
 @import './../../less/variables.less';
+@import './../../less/mixins.less';
 
 .login {
-  margin: 0 auto;
-  width: 100%;
+  .generate-block();
 
   &__container {
-    align-items: center;
-    background-color: @bgMain;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    min-height: 100vh;
-    width: 100%;
+    .generate-container();
 
     &__wrapper {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .1);
-      overflow: hidden;
-      width: 390px;
+      .generate-wrapper();
     }
 
     .form {
@@ -33,15 +23,7 @@
       }
 
       &__title {
-        color: @grey;
-        display: block;
-        font-size: @headingSize;
-        font-weight: bold;
-        line-height: 1.2;
-
-        i {
-          font-size: @headingSize * 2;
-        }
+        .generate-title();
       }
 
       &__input-wrapper {
@@ -172,26 +154,7 @@
     }
 
     .text {
-      &--link,
-      &--base {
-        font-size: 13px;
-        line-height: 1.5;
-      }
-
-      &--link {
-        color: @grey;
-        transition: all .4s;
-
-        &:hover {
-          color: @blue;
-          color: linear-gradient(to left, @blue2, @pink);
-          text-decoration: none;
-        }
-      }
-
-      &--base {
-        color: #666;
-      }
+      .generate-text();
     }
   }
 }

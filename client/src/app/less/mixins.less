@@ -1,3 +1,61 @@
+.generate-block() {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.generate-container() {
+  align-items: center;
+  background-color: @bgMain;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.generate-wrapper() {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .1);
+  overflow: hidden;
+  width: 390px;
+}
+
+.generate-title() {
+  color: @grey;
+  display: block;
+  font-size: @headingSize;
+  font-weight: bold;
+  line-height: 1.2;
+
+  i {
+    font-size: @headingSize * 2;
+  }
+}
+
+.generate-text() {
+  &--link,
+  &--base {
+    font-size: @mainSize;
+    line-height: 1.5;
+  }
+
+  &--link {
+    color: @grey;
+    transition: all .4s;
+
+    &:hover {
+      color: @blue;
+      color: linear-gradient(to left, @blue2, @pink);
+      text-decoration: none;
+    }
+  }
+
+  &--base {
+    color: #666;
+  }
+}
+
 .generate-indents(@indent, @prefix, @n: 200, @k: 5) when (@k <= @n) {
   .@{prefix}-@{k} {
       @{indent}: ~'@{k}px';

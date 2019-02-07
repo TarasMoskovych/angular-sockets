@@ -1,14 +1,17 @@
-<div id="notfound">
-  <div class="notfound">
-    <div>
-      <div class="notfound-500">
-        <h1>!</h1>
+<div class="error">
+  <div class="error__container p-10">
+    <div class="error__container__wrapper p-t-55 p-b-35 p-x-55">
+      <span class="error__title center p-b-25">Error 500</span>
+      <span class="error__title center p-b-20">
+        <i class="zmdi zmdi-alert-triangle"></i>
+      </span>
+      <div class="error__text center">
+        <span class="text--base">The server encountered an internal error or misconfiguration and was unable to complete your request.
+          Please contact the server administrator and inform him of the time the error occurred, and anything you might have done that may have caused the error.
+        </span>
+        <br>
+        <a class="text--link" routerLink="/home">Back to login</a>
       </div>
-      <h2>Error<br />500</h2>
     </div>
-    <p>The server encountered an internal error or misconfiguration and was unable to complete your request.
-      Please contact the server administrator and inform him of the time the error occurred, and anything you might have done that may have caused the error.
-        <a routerLink="/home">Back to login</a>
-    </p>
   </div>
 </div>
