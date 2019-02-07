@@ -32,7 +32,10 @@
           <span class="form__input--focus"></span>
           <label for="room">Room:</label>
         </div>
-        <div class="login__container__button p-t-15">
+        <div *ngIf="loader" class="p-t-10">
+          <app-loader></app-loader>
+        </div>
+        <div *ngIf="!loader" class="login__container__button p-t-15">
           <div class="button__wrapper">
             <div class="button--bg"></div>
             <button
@@ -44,10 +47,7 @@
             </button>
           </div>
         </div>
-        <div class="progress m-t-50" *ngIf="loader">
-          <div class="indeterminate"></div>
-        </div>
-        <div class="login__container__text center p-t-80">
+        <div class="login__container__text center p-t-70">
           <a class="text--link" href="https://github.com/TarasMoskovych" target="_blank">
             &copy; Taras Moskovych
           </a>
