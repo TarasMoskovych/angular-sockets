@@ -1,0 +1,36 @@
+.generate-indents(@indent, @prefix, @n: 200, @k: 5) when (@k <= @n) {
+  .@{prefix}-@{k} {
+      @{indent}: ~'@{k}px';
+  }
+
+  .@{prefix}-x-@{k} {
+      @{indent}-left: ~'@{k}px';
+      @{indent}-right: ~'@{k}px';
+  }
+
+  .@{prefix}-y-@{k} {
+      @{indent}-bottom: ~'@{k}px';
+      @{indent}-top: ~'@{k}px';
+  }
+
+  .@{prefix}-t-@{k} {
+      @{indent}-top: ~'@{k}px';
+  }
+
+  .@{prefix}-b-@{k} {
+      @{indent}-bottom: ~'@{k}px';
+  }
+
+  .@{prefix}-l-@{k} {
+      @{indent}-left: ~'@{k}px';
+  }
+
+  .@{prefix}-r-@{k} {
+      @{indent}-right: ~'@{k}px';
+  }
+
+  .generate-indents(@indent, @prefix, @n, @k + 5);
+}
+
+.generate-indents(margin, m);
+.generate-indents(padding, p);
