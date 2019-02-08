@@ -9,7 +9,7 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 const userService = require('./user.service')();
-const formatData = (name, text, id) => ({ name, text, id });
+const formatData = (name, text, id) => ({ name, text, id, time: new Date().toLocaleTimeString() });
 
 io.on('connection', socket => {
 

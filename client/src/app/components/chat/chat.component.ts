@@ -10,11 +10,12 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./chat.component.less']
 })
 export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
-  // @ViewChild('messagesRef') messageContainer: ElementRef;
+  @ViewChild('messagesRef') messageContainer: ElementRef;
 
   private getMessagesSub = null;
   private updateUsersSub = null;
-  private user = {
+
+  user = {
     name: '',
     room: 0,
     id: 0
@@ -24,10 +25,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   users = [];
   messages = [];
   message = '';
-
-  collection = new Array(20);
-  collection2 = new Array(20);
-
+  incomingMessages = [];
 
   constructor(
     private authService: AuthService,
@@ -86,8 +84,9 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   private onReceiveMessage() {
     this.getMessagesSub = this.chatService.getMessages()
-      .subscribe((message: string) => {
+      .subscribe((message) => {
         this.messages.push(message);
+        this.getIncomingMessages();
       });
   }
 
@@ -98,9 +97,12 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
       });
   }
 
+  private getIncomingMessages() {
+    this.incomingMessages = this.messages.filter((message) => message.id !== this.user.id);
+  }
+
   private scrollToBottom() {
-    return;
-    // this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
+    this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
   }
 
   onSendMessage() {
