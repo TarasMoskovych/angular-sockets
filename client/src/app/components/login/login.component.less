@@ -43,6 +43,26 @@
         height: 45px;
         width: 100%;
 
+        &--file {
+          background: linear-gradient(to right, @blue2, @pink);
+          border-radius: 10px;
+          border: none;
+          height: 2.5rem;
+          position: relative;
+          top: 10px;
+          width: 80px;
+
+          & span {
+            bottom: 4px;
+            left: -2px;
+            position: relative;
+          }
+        }
+
+        &--border {
+          border-bottom: 2px solid @pink !important;
+        }
+
         &--focus {
           display: block;
           height: 100%;

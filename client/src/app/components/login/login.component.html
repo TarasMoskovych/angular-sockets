@@ -1,6 +1,6 @@
 <div class="login">
   <div class="login__container p-10">
-    <div class="login__container__wrapper p-t-55 p-b-35 p-x-55">
+    <div class="login__container__wrapper p-t-45 p-b-35 p-x-55">
       <form class="login__container__form form" #loginForm="ngForm">
         <span class="form__title center p-b-25">Welcome</span>
         <span class="form__title center p-b-20">
@@ -32,6 +32,15 @@
           <span class="form__input--focus"></span>
           <label for="room">Room:</label>
         </div>
+        <div class="file-field input-field m-b-35">
+          <div class="btn form__input--file">
+            <span>Photo</span>
+            <input type="file" name="photo" (change)="onUpload($event)" ngModel>
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate form__input form__input--border" type="text">
+          </div>
+        </div>
         <div *ngIf="loader" class="p-t-10">
           <app-loader></app-loader>
         </div>
@@ -47,7 +56,7 @@
             </button>
           </div>
         </div>
-        <div class="login__container__text center p-t-70">
+        <div class="login__container__text center p-t-20">
           <a class="text--link" href="https://github.com/TarasMoskovych" target="_blank">
             &copy; Taras Moskovych
           </a>

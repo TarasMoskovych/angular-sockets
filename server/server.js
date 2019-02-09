@@ -22,7 +22,7 @@ io.on('connection', socket => {
         socket.join(user.room);
 
         userService.remove(socket.id);
-        userService.add(socket.id, user.name, user.room);
+        userService.add(socket.id, user.name, user.room, user.img, user.converted);
 
         io.to(user.room).emit('users:update', userService.getUsersByRoom(user.room));
         socket.emit('message:send', formatData('Admin', `Hello, ${user.name}!`));

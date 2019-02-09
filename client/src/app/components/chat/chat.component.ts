@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { ChatService } from '../../services/chat.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService, ChatService, ImageService } from '../../services';
 
 @Component({
   selector: 'app-chat',
@@ -18,7 +17,9 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   user = {
     name: '',
     room: 0,
-    id: 0
+    id: 0,
+    img: this.imageService.getImgData(),
+    converted: false
   };
 
   loader = true;
@@ -26,10 +27,12 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   messages = [];
   message = '';
   incomingMessages = [];
+  photo = null;
 
   constructor(
     private authService: AuthService,
     private chatService: ChatService,
+    private imageService: ImageService,
     private router: Router,
     private route: ActivatedRoute) {
   }
@@ -42,13 +45,16 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
         this.router.navigate(['/error']);
       },
       () => {
-        this.loader = false;
+        console.log('Connected');
       });
     this.onInitializeConnection();
+    this.renderImg();
+    this.loader = false;
   }
 
   ngAfterViewChecked() {
     this.scrollToBottom();
+    this.updateUserImages();
   }
 
   ngOnDestroy() {
@@ -61,6 +67,35 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     }
 
     this.authService.logout();
+  }
+
+  onSendMessage() {
+    const message = this.message.trim();
+    const data = {
+      text: message,
+      name: this.user.name,
+      id: this.user.id
+    };
+
+    if (message.length !== 0) {
+      this.chatService.sendMessage(data, err => {
+        err ? console.error(err) : this.message = '';
+      });
+    }
+  }
+
+  logout() {
+    this.router.navigate(['/login']);
+  }
+
+  private renderImg() {
+    this.imageService.renderImg(this.user.img)
+      .then((event: any) => {
+        this.photo = event.target.result;
+      })
+      .catch(defaultPhoto => {
+        this.photo = defaultPhoto;
+      });
   }
 
   private getRouteParameters() {
@@ -105,22 +140,13 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
   }
 
-  onSendMessage() {
-    const message = this.message.trim();
-    const data = {
-      text: message,
-      name: this.user.name,
-      id: this.user.id
-    };
-
-    if (message.length !== 0) {
-      this.chatService.sendMessage(data, err => {
-        err ? console.error(err) : this.message = '';
-      });
+  private updateUserImages() {
+    for (const user of this.users) {
+      if (!user.converted && user.id !== this.user.id) {
+        user.img = this.imageService.convertImgFromServer(user.img);
+        user.converted = true;
+        document.getElementById(`${user.id}`).setAttribute('src', user.img);
+      }
     }
-  }
-
-  goBack() {
-    this.router.navigate(['/login']);
   }
 }

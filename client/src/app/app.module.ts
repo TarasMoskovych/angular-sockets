@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
-import { ChatService } from './services/chat.service';
+import { ChatService } from './services';
 import { AppComponent } from './app.component';
 import { ChatComponent, LoginComponent, ErrorHandlerComponent, LoaderComponent } from './components';
 

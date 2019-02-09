@@ -3,8 +3,8 @@ class UserService {
         this.users = [];
     }
 
-    add(id, name, room) {
-        this.users.push({ id, name, room });
+    add(id, name, room, img, converted) {
+        this.users.push({ id, name, room, img, converted });
     }
 
     getById(id) {
