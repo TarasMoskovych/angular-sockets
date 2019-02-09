@@ -5,11 +5,11 @@
     <div class="chat__container__wrapper">
       <div class="people-list p-y-30 p-l-30">
         <div class="input-field people-list__search m-b-10">
-          <input id="search" type="text" class="validate"/>
+          <input id="search" type="text" class="validate" [(ngModel)]="search"/>
           <label for="search">Search</label>
         </div>
         <ul class="people-list__list p-y-20 p-r-20">
-          <li class="p-b-20" *ngFor="let u of users">
+          <li class="p-b-20" *ngFor="let u of users | filter : search">
             <img
               id="{{ u.id }}"
               class="materialboxed"
@@ -48,7 +48,8 @@
         </div>
 
         <div class="chat-block__history p-t-30 p-x-30 p-b-20" #messagesRef>
-          <ul>
+          <app-loader *ngIf="messages.length === 0" [alignCenter]="true"></app-loader>
+          <ul *ngIf="messages.length !== 0">
             <li class="clearfix" *ngFor="let data of messages">
               <div class="message__wrapper" *ngIf="data.id === user.id">
                 <div class="message-data right m-b-15">

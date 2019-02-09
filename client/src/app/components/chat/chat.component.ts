@@ -30,6 +30,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked, O
   message = '';
   incomingMessages = [];
   photo = null;
+  search = '';
 
   constructor(
     private authService: AuthService,

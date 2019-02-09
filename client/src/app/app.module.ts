@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ChatService } from './services';
 import { AppComponent } from './app.component';
 import { ChatComponent, LoginComponent, ErrorHandlerComponent, LoaderComponent } from './components';
+import { FilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ChatComponent, LoginComponent, ErrorHandlerComponent, LoaderComponent }
     LoginComponent,
     ErrorHandlerComponent,
     LoaderComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,
