@@ -1,14 +1,16 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AuthService, ChatService, ImageService } from '../../services';
+
+declare const M;
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.less']
 })
-export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
+export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   @ViewChild('messagesRef') messageContainer: ElementRef;
 
   private getMessagesSub = null;
@@ -39,17 +41,15 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   ngOnInit() {
     this.getRouteParameters();
-
-    this.chatService.initializeConnection(
-      () => {
-        this.router.navigate(['/error']);
-      },
-      () => {
-        console.log('Connected');
-      });
+    this.chatService.initializeConnection(() => {
+      this.router.navigate(['/error']);
+    });
     this.onInitializeConnection();
     this.renderImg();
-    this.loader = false;
+  }
+
+  ngAfterViewInit() {
+    this.reinitMaterialize();
   }
 
   ngAfterViewChecked() {
@@ -111,15 +111,16 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
         console.error(data);
       } else {
         this.user.id = data.id;
-        this.onReceiveMessage();
+        this.onReceiveMessages();
         this.onUpdateUsers();
+        this.loader = false;
       }
     });
   }
 
-  private onReceiveMessage() {
+  private onReceiveMessages() {
     this.getMessagesSub = this.chatService.getMessages()
-      .subscribe((message) => {
+      .subscribe(message => {
         this.messages.push(message);
         this.getIncomingMessages();
       });
@@ -143,10 +144,21 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   private updateUserImages() {
     for (const user of this.users) {
       if (!user.converted && user.id !== this.user.id) {
-        user.img = this.imageService.convertImgFromServer(user.img);
+        if (!user.img || user.img === null) {
+          user.img = this.imageService.getDefaultImg();
+        } else {
+          user.img = this.imageService.convertImgFromServer(user.img);
+        }
         user.converted = true;
         document.getElementById(`${user.id}`).setAttribute('src', user.img);
+        this.reinitMaterialize();
       }
     }
+  }
+
+  private reinitMaterialize() {
+    setTimeout(() => {
+      M.AutoInit();
+    }, 1000);
   }
 }

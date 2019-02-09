@@ -261,12 +261,9 @@ var ChatComponent = /** @class */ (function () {
         this.getRouteParameters();
         this.chatService.initializeConnection(function () {
             _this.router.navigate(['/error']);
-        }, function () {
-            console.log('Connected');
         });
         this.onInitializeConnection();
         this.renderImg();
-        this.loader = false;
     };
     ChatComponent.prototype.ngAfterViewChecked = function () {
         this.scrollToBottom();
@@ -321,12 +318,13 @@ var ChatComponent = /** @class */ (function () {
             }
             else {
                 _this.user.id = data.id;
-                _this.onReceiveMessage();
+                _this.onReceiveMessages();
                 _this.onUpdateUsers();
+                _this.loader = false;
             }
         });
     };
-    ChatComponent.prototype.onReceiveMessage = function () {
+    ChatComponent.prototype.onReceiveMessages = function () {
         var _this = this;
         this.getMessagesSub = this.chatService.getMessages()
             .subscribe(function (message) {
@@ -352,7 +350,12 @@ var ChatComponent = /** @class */ (function () {
         for (var _i = 0, _a = this.users; _i < _a.length; _i++) {
             var user = _a[_i];
             if (!user.converted && user.id !== this.user.id) {
-                user.img = this.imageService.convertImgFromServer(user.img);
+                if (!user.img) {
+                    user.img = this.imageService.getDefaultImg();
+                }
+                else {
+                    user.img = this.imageService.convertImgFromServer(user.img);
+                }
                 user.converted = true;
                 document.getElementById("" + user.id).setAttribute('src', user.img);
             }
@@ -635,6 +638,7 @@ var AuthGuard = /** @class */ (function () {
         return this.checkLogin();
     };
     AuthGuard.prototype.checkLogin = function () {
+        return true;
         if (this.authService.isLoggedIn) {
             return true;
         }
@@ -732,7 +736,7 @@ var ChatService = /** @class */ (function () {
         };
         this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1__(this.url);
     }
-    ChatService.prototype.initializeConnection = function (reject, resolve) {
+    ChatService.prototype.initializeConnection = function (reject) {
         var _this = this;
         if (!this.socket.connected) {
             this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1__(this.url);
@@ -740,9 +744,6 @@ var ChatService = /** @class */ (function () {
         this.socket.on('connect_error', function () {
             reject();
             _this.socket.disconnect();
-        });
-        this.socket.on('connect', function () {
-            resolve();
         });
     };
     ChatService.prototype.sendMessage = function (data, callback) {
@@ -782,6 +783,9 @@ var ImageService = /** @class */ (function () {
     };
     ImageService.prototype.getImgData = function () {
         return this.imgData;
+    };
+    ImageService.prototype.getDefaultImg = function () {
+        return this.defaultImg;
     };
     ImageService.prototype.convertImgFromServer = function (imgData) {
         var arrayBufferView = new Uint8Array(imgData);

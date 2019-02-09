@@ -17,6 +17,10 @@ export class ImageService {
     return this.imgData;
   }
 
+  getDefaultImg() {
+    return this.defaultImg;
+  }
+
   convertImgFromServer(imgData) {
     const arrayBufferView = new Uint8Array(imgData);
     const blob = new Blob([ arrayBufferView ], { type: 'image/jpeg' });

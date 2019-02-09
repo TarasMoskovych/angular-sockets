@@ -10,7 +10,7 @@ export class ChatService {
       this.socket = io(this.url);
     }
 
-    public initializeConnection(reject, resolve) {
+    public initializeConnection(reject) {
       if (!this.socket.connected) {
         this.socket = io(this.url);
       }
@@ -18,10 +18,6 @@ export class ChatService {
       this.socket.on('connect_error', () => {
         reject();
         this.socket.disconnect();
-      });
-
-      this.socket.on('connect', () => {
-        resolve();
       });
     }
 
@@ -42,7 +38,7 @@ export class ChatService {
     }
 
     public getMessages = () => {
-      return Observable.create((observer) => {
+      return Observable.create(observer => {
           this.socket.on('message:send', message => {
               observer.next(message);
           });

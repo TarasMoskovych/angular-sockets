@@ -12,9 +12,12 @@
           <li class="p-b-20" *ngFor="let u of users">
             <img
               id="{{ u.id }}"
+              class="materialboxed"
               [ngClass]="{ owner: u.id === user.id }"
               src="{{ photo }}"
               alt="avatar"
+              width="650"
+              height="650"
             />
             <div class="about">
               <div class="name">{{ u.name }}</div>
