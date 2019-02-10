@@ -30,18 +30,18 @@ export class ChatService {
   }
 
   public updateUsers = () => {
-    return Observable.create((observer) => {
-        this.socket.on('users:update', userList => {
-            observer.next(userList);
-        });
+    return Observable.create(observer => {
+      this.socket.on('users:update', userList => {
+        observer.next(userList);
+      });
     });
   }
 
   public getMessages = () => {
     return Observable.create(observer => {
-        this.socket.on('message:send', message => {
-            observer.next(message);
-        });
+      this.socket.on('message:send', message => {
+        observer.next(message);
+      });
     });
   }
 }

@@ -3,7 +3,7 @@
     id="{{ user.id }}"
     class="user__img materialboxed"
     [ngClass]="{ owner: user.id === userId }"
-    src="{{ photo }}"
+    [src]="photo"
     alt="avatar"
     width="650"
     height="650"

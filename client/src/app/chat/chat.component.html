@@ -10,8 +10,8 @@
           ngDefaultControl>
         </app-search>
         <ul class="people-list__list p-y-20 p-r-20">
-          <app-user *ngFor="let u of users | filter : searchStr"
-            [photo]="photo"
+          <app-user *ngFor="let u of users | filter: searchStr"
+            [photo]="u.id === user.id ? photo : u.converted ? sanitizer.bypassSecurityTrustResourceUrl(u.img) : default"
             [userId]="user.id"
             [user]="u"
           ></app-user>

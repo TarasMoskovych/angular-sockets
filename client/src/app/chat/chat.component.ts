@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { AuthService, ImageService } from '../services';
 import { ChatService } from './services/chat.service';
@@ -31,6 +32,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked, O
   message = '';
   incomingMessages = [];
   photo = null;
+  default = this.imageService.getDefaultImg();
   searchStr = '';
 
   constructor(
@@ -38,7 +40,8 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked, O
     private chatService: ChatService,
     private imageService: ImageService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    public sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
@@ -56,7 +59,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked, O
 
   ngAfterViewChecked() {
     this.scrollToBottom();
-    this.updateUserImages();
   }
 
   ngOnDestroy() {
@@ -129,11 +131,15 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked, O
     this.updateUsersSub = this.chatService.updateUsers()
       .subscribe((userList: Array<any>) => {
         this.users = [...userList];
+
+        setTimeout(() => {
+          this.updateUserImages();
+        }, 0);
       });
   }
 
   private getIncomingMessages() {
-    this.incomingMessages = this.messages.filter((message) => message.id !== this.user.id);
+    this.incomingMessages = this.messages.filter(message => message.id !== this.user.id);
   }
 
   private scrollToBottom() {
@@ -149,7 +155,6 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked, O
           user.img = this.imageService.convertImgFromServer(user.img);
         }
         user.converted = true;
-        document.getElementById(`${user.id}`).setAttribute('src', user.img);
         this.reinitMaterialize();
       }
     }
