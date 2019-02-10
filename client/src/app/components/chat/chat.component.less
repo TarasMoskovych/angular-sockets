@@ -15,6 +15,16 @@
       height: 600px;
       display: flex;
       justify-content: space-between;
+
+      @media only screen and (min-width: @lg) {
+        height: 95vh;
+        max-width: 1280px;
+      }
+
+      @media only screen and (max-width: @sm) {
+        flex-direction: column;
+        height: auto;
+      }
     }
   }
 
@@ -22,12 +32,33 @@
     flex: 1 1 30%;
     min-width: 220px;
 
+
+    @media only screen and (max-width: @sm) {
+      padding: 0 30px;
+    }
+
+    @media only screen and (min-width: @lg) {
+      flex: 1 1 25%;
+    }
+
     &__list {
       list-style: none;
       max-height: 450px;
       overflow-y: scroll;
+      overflow-x: hidden;
       -ms-overflow-style: none;
       overflow: -moz-scrollbars-none;
+
+      @media only screen and (max-width: @sm) {
+        display: flex;
+        overflow-x: scroll;
+        padding-bottom: 0;
+        padding-top: 0;
+      }
+
+      @media only screen and (min-width: @lg) {
+        max-height: 90%;
+      }
 
       &::-webkit-scrollbar {
         display: none;
@@ -35,6 +66,12 @@
 
       & li {
         display: flex;
+
+        @media only screen and (max-width: @sm) {
+          align-items: center;
+          flex-direction: column;
+          padding-right: 20px;
+        }
       }
 
       & img {
@@ -44,6 +81,11 @@
         max-height: 55px;
         max-width: 55px;
 
+        @media only screen and (min-width: @lg) {
+          max-height: 90px;
+          max-width: 90px;
+        }
+
         &.owner {
           border-color: @blue3;
         }
@@ -51,14 +93,31 @@
 
       & .about {
         margin-top: 8px;
+        overflow: hidden;
         padding-left: 8px;
+
+        @media only screen and (max-width: @sm) {
+          padding-left: 0;
+        }
 
         & .status {
           color: @grey3;
+
+          @media only screen and (max-width: @sm) {
+            display: none;
+          }
         }
 
         & .name {
           color: @white;
+          font-size: @mainSize;
+          overflow: hidden;
+          max-width: 15ch;
+          text-overflow: ellipsis;
+
+          @media only screen and (min-width: @lg) {
+            font-size: @mainSize * 1.2;
+          }
         }
       }
     }
@@ -82,6 +141,10 @@
     background: @white;
     color: @grey4;
     flex: 1 1 70%;
+
+    @media only screen and (min-width: @lg) {
+      flex: 1 1 75%;
+    }
 
     &__header {
       border-bottom: 3px solid @bgMain;
@@ -127,6 +190,10 @@
       overflow-y: scroll;
       height: 430px;
 
+      @media only screen and (min-width: @lg) {
+        height: 75vh;
+      }
+
       &::-webkit-scrollbar-track {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         border-radius: 10px;
@@ -150,7 +217,12 @@
         color: @white;
         font-size: @mainSize;
         position: relative;
+        word-break: break-word;
         width: 90%;
+
+        @media only screen and (min-width: @lg) {
+          font-size: @mainSize * 1.1;
+        }
 
         &-data--time {
           color: #a8aab1;
@@ -160,18 +232,26 @@
           animation: fadein .5s;
         }
 
-        &:after {
-          border: solid transparent;
-          border-bottom-color: @green;
-          border-width: 10px;
-          bottom: 100%;
-          content: " ";
-          height: 0;
-          left: 5%;
-          margin-left: -10px;
-          pointer-events: none;
-          position: absolute;
-          width: 0;
+        @media only screen and (min-width: @sm) {
+          &:after {
+            border: solid transparent;
+            border-bottom-color: @green;
+            border-width: 10px;
+            bottom: 100%;
+            content: " ";
+            height: 0;
+            left: 5%;
+            margin-left: -10px;
+            pointer-events: none;
+            position: absolute;
+            width: 0;
+          }
+        }
+
+        @media only screen and (min-width: @lg) {
+          &:after {
+            left: 4%;
+          }
         }
 
         &--other {
@@ -181,6 +261,10 @@
         &--owner:after {
           border-bottom-color: @blue3;
           left: 95%;
+
+          @media only screen and (min-width: @lg) {
+            left: 96%;
+          }
         }
       }
     }
@@ -236,6 +320,7 @@
   from {
       opacity:0;
   }
+
   to {
       opacity:1;
   }
