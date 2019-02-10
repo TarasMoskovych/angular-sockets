@@ -4,28 +4,17 @@
   <div class="chat__container p-10">
     <div class="chat__container__wrapper">
       <div class="people-list p-y-30 p-l-30">
-        <div class="input-field people-list__search m-b-10">
-          <input id="search" type="text" class="validate" [(ngModel)]="search"/>
-          <label for="search">Search</label>
-        </div>
+        <app-search
+          [search]="searchStr"
+          [(ngModel)]="searchStr"
+          ngDefaultControl>
+        </app-search>
         <ul class="people-list__list p-y-20 p-r-20">
-          <li class="p-b-20" *ngFor="let u of users | filter : search">
-            <img
-              id="{{ u.id }}"
-              class="materialboxed"
-              [ngClass]="{ owner: u.id === user.id }"
-              src="{{ photo }}"
-              alt="avatar"
-              width="650"
-              height="650"
-            />
-            <div class="about">
-              <div class="name">{{ u.name }}</div>
-              <div class="status">
-                <i class="fa fa-circle online"></i> online
-              </div>
-            </div>
-          </li>
+          <app-user *ngFor="let u of users | filter : searchStr"
+            [photo]="photo"
+            [userId]="user.id"
+            [user]="u"
+          ></app-user>
         </ul>
       </div>
       <div class="chat-block">
@@ -46,7 +35,6 @@
             <i class="fa fa-sign-out" (click)="logout()"></i>
           </div>
         </div>
-
         <div class="chat-block__history p-t-30 p-x-30 p-b-20" #messagesRef>
           <app-loader *ngIf="messages.length === 0" [alignCenter]="true"></app-loader>
           <ul *ngIf="messages.length !== 0">
@@ -78,23 +66,9 @@
             </li>
           </ul>
         </div>
-        <div class="chat-block__message">
-          <div class="clearfix">
-            <textarea
-              class="p-y-10 p-x-20"
-              name="message-to-send"
-              [(ngModel)]="message"
-              id="message-to-send"
-              placeholder="Type your message"
-              autocomplete="false"
-              (keydown.enter)="onSendMessage()"
-              autofocus
-              autocomplete="false"
-              rows="6"
-            >
-            </textarea>
-          </div>
-        </div>
+        <app-send-message
+          (sendMessage)="sendMessage($event)"
+        ></app-send-message>
       </div>
     </div>
   </div>

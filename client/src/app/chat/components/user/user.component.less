@@ -1,0 +1,62 @@
+@import './../../../less/variables.less';
+
+.user {
+  display: flex;
+
+  @media only screen and (max-width: @sm) {
+    align-items: center;
+    flex-direction: column;
+    padding-right: 20px;
+  }
+
+  &__img {
+    border-radius: 50%;
+    border: 3px solid @grey2;
+    object-fit: cover;
+    max-height: 55px;
+    max-width: 55px;
+
+    @media only screen and (min-width: @lg) {
+      max-height: 80px;
+      max-width: 80px;
+    }
+
+    &.owner {
+      border-color: @blue3;
+    }
+  }
+
+  &__about {
+    margin-top: 8px;
+    overflow: hidden;
+    padding-left: 8px;
+
+    @media only screen and (max-width: @sm) {
+      padding-left: 0;
+    }
+  }
+
+  &__status {
+    color: @grey3;
+
+    & .online {
+      color: @green;
+    }
+
+    @media only screen and (max-width: @sm) {
+      display: none;
+    }
+  }
+
+  &__name {
+    color: @white;
+    font-size: @mainSize;
+    overflow: hidden;
+    max-width: 15ch;
+    text-overflow: ellipsis;
+
+    @media only screen and (min-width: @lg) {
+      font-size: @mainSize * 1.2;
+    }
+  }
+}

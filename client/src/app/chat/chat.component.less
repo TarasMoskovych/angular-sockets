@@ -1,5 +1,5 @@
-@import './../../less/variables.less';
-@import './../../less/mixins.less';
+@import './../less/mixins.less';
+@import './../less/variables.less';
 
 .chat {
   .generate-block();
@@ -32,7 +32,6 @@
     flex: 1 1 30%;
     min-width: 220px;
 
-
     @media only screen and (max-width: @sm) {
       padding: 0 30px;
     }
@@ -63,77 +62,6 @@
       &::-webkit-scrollbar {
         display: none;
       }
-
-      & li {
-        display: flex;
-
-        @media only screen and (max-width: @sm) {
-          align-items: center;
-          flex-direction: column;
-          padding-right: 20px;
-        }
-      }
-
-      & img {
-        border-radius: 50%;
-        border: 3px solid @grey2;
-        object-fit: cover;
-        max-height: 55px;
-        max-width: 55px;
-
-        @media only screen and (min-width: @lg) {
-          max-height: 90px;
-          max-width: 90px;
-        }
-
-        &.owner {
-          border-color: @blue3;
-        }
-      }
-
-      & .about {
-        margin-top: 8px;
-        overflow: hidden;
-        padding-left: 8px;
-
-        @media only screen and (max-width: @sm) {
-          padding-left: 0;
-        }
-
-        & .status {
-          color: @grey3;
-
-          @media only screen and (max-width: @sm) {
-            display: none;
-          }
-        }
-
-        & .name {
-          color: @white;
-          font-size: @mainSize;
-          overflow: hidden;
-          max-width: 15ch;
-          text-overflow: ellipsis;
-
-          @media only screen and (min-width: @lg) {
-            font-size: @mainSize * 1.2;
-          }
-        }
-      }
-    }
-
-    &__search {
-      margin-top: 20px;
-
-      & input,
-      & label {
-        font-size: 13px;
-        color: @white;
-      }
-
-      & input {
-        border-bottom-width: 3px;
-      }
     }
   }
 
@@ -143,12 +71,15 @@
     flex: 1 1 70%;
 
     @media only screen and (min-width: @lg) {
+      display: flex;
+      flex-direction: column;
       flex: 1 1 75%;
     }
 
     &__header {
       border-bottom: 3px solid @bgMain;
       display: flex;
+      height: 98px;
 
       & img {
         height: 55px;
@@ -191,7 +122,7 @@
       height: 430px;
 
       @media only screen and (min-width: @lg) {
-        height: 75vh;
+        flex: 1 1 80%;
       }
 
       &::-webkit-scrollbar-track {
@@ -305,15 +236,6 @@
 
 .float-right {
   float: right;
-}
-
-.clearfix:after {
-  clear: both;
-  content: " ";
-  display: block;
-  font-size: 0;
-  height: 0;
-  visibility: hidden;
 }
 
 @keyframes fadein {

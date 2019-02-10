@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
-import { ChatService } from './services';
 import { AppComponent } from './app.component';
 import { ChatComponent, LoginComponent, ErrorHandlerComponent, LoaderComponent } from './components';
 import { FilterPipe } from './pipes/filter.pipe';
+import { ChatModule } from './chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -20,9 +20,10 @@ import { FilterPipe } from './pipes/filter.pipe';
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ChatModule
   ],
-  providers: [ChatService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

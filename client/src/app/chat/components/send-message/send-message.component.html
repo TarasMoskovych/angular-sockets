@@ -1,0 +1,17 @@
+<div class="send-message">
+  <div class="clearfix">
+    <textarea
+      class="p-y-10 p-x-20"
+      name="message-to-send"
+      id="message-to-send"
+      placeholder="Type your message"
+      autocomplete="false"
+      [(ngModel)]="message"
+      (keydown.enter)="onSendMessage()"
+      autofocus
+      autocomplete="false"
+      rows="3"
+      wrap
+    ></textarea>
+  </div>
+</div>

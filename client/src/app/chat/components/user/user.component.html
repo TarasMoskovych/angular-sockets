@@ -1,0 +1,17 @@
+<li class="user p-b-20">
+  <img
+    id="{{ user.id }}"
+    class="user__img materialboxed"
+    [ngClass]="{ owner: user.id === userId }"
+    src="{{ photo }}"
+    alt="avatar"
+    width="650"
+    height="650"
+  />
+  <div class="user__about">
+    <div class="user__name">{{ user.name }}</div>
+    <div class="user__status">
+      <i class="fa fa-circle online"></i> online
+    </div>
+  </div>
+</li>

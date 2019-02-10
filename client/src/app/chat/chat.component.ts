@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, AfterViewInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { AuthService, ChatService, ImageService } from '../../services';
+import { AuthService, ImageService } from '../services';
+import { ChatService } from './services/chat.service';
 
 declare const M;
 
@@ -30,7 +31,7 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked, O
   message = '';
   incomingMessages = [];
   photo = null;
-  search = '';
+  searchStr = '';
 
   constructor(
     private authService: AuthService,
@@ -70,19 +71,16 @@ export class ChatComponent implements OnInit, AfterViewInit, AfterViewChecked, O
     this.authService.logout();
   }
 
-  onSendMessage() {
-    const message = this.message.trim();
+  sendMessage(message: string) {
     const data = {
       text: message,
       name: this.user.name,
       id: this.user.id
     };
 
-    if (message.length !== 0) {
-      this.chatService.sendMessage(data, err => {
-        err ? console.error(err) : this.message = '';
-      });
-    }
+    this.chatService.sendMessage(data, err => {
+      err ? console.error(err) : this.message = '';
+    });
   }
 
   logout() {
