@@ -16,8 +16,8 @@ export class ChatService {
     }
 
     this.socket.on('connect_error', () => {
-      reject();
       this.socket.disconnect();
+      reject();
     });
   }
 
@@ -43,5 +43,9 @@ export class ChatService {
         observer.next(message);
       });
     });
+  }
+
+  public disconnect() {
+    this.socket.disconnect();
   }
 }
