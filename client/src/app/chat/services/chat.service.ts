@@ -3,7 +3,7 @@ import * as io from 'socket.io-client';
 
 export class ChatService {
   // private url = 'http://localhost:3000';
-  private url = 'https://anguar-sockets.onrender.com';
+  private url = 'https://angular-sockets.onrender.com';
   private socket;
 
   constructor() {
